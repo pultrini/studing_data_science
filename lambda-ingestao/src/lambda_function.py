@@ -28,7 +28,7 @@ def fetch_bcb_serie_periodo(codigo_bcb: int, dias_atras: int) -> list:
 
     url = f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo_bcb}/dados?formato=json&dataInicial={str_inicial}&dataFinal={str_final}"
 
-    response = requests.get(url, timeout=15)
+    response = requests.get(url, timeout=60)
     response.raise_for_status()
     return response.json()
 
@@ -58,8 +58,8 @@ def lambda_handler(event, context):
     try:
         print("Começando a coleta dos dados do BCB...")
 
-        ipca_data = fetch_bcb_serie_periodo(433, 365)
-        selic_data = fetch_bcb_serie_periodo(11, 365)
+        ipca_data = fetch_bcb_serie_periodo(433, 3650)
+        selic_data = fetch_bcb_serie_periodo(11, 3650)
 
         dados_macro = {
             "ipca": ipca_data,
